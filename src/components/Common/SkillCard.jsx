@@ -1,19 +1,18 @@
-import React from 'react';
+import { Code } from "lucide-react";
 
-const SkillCard = ({ name, icon: Icon, level, isHighlighted = false }) => {
+const SkillCard = ({ skill, onSkillClick }) => {
   return (
-    <div className={`p-4 rounded-lg border transition-all duration-300 hover:scale-105 ${
-      isHighlighted 
-        ? 'highlight-skill' 
-        : 'bg-slate-800/50 border-slate-700 hover:border-purple-500/50'
-    }`}>
-      <div className="flex items-center space-x-3">
-        <Icon size={24} className="text-purple-400" />
-        <div>
-          <h4 className="font-semibold text-white">{name}</h4>
-          <p className="text-sm text-gray-400">{level}</p>
-        </div>
-      </div>
+    <div
+      className="skill-card bg-slate-800/50 p-4 rounded-lg text-center border border-slate-700 hover:border-purple-500/50 hover:bg-slate-800/70 transition-all duration-300 cursor-pointer group"
+      onClick={() => onSkillClick(skill)}
+    >
+      <Code
+        className="mx-auto mb-2 text-purple-400 group-hover:text-pink-400 transition-colors duration-300"
+        size={24}
+      />
+      <span className="text-sm text-gray-300 group-hover:text-white transition-colors duration-300">
+        {skill}
+      </span>
     </div>
   );
 };
