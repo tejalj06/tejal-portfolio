@@ -2,7 +2,7 @@ import { ChevronDown, MapPin, Mail } from "lucide-react";
 import useTypeWriter from "../../hooks/useTypeWriter";
 import useSkillRotation from "../../hooks/useSkillRotation";
 import { skills } from "../../data/skillsData";
-import tejalImage from "../../assets/tejal.jpg";
+import tejalImage from "../../assets/Tejal.jpg";
 
 const HeroSection = ({ scrollToSection }) => {
   // Custom hooks
