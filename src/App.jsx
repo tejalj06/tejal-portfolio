@@ -1,11 +1,46 @@
-import './App.css'
+// Section components
+import AboutSection from "./components/Sections/AboutSection";
+import ContactSection from "./components/Sections/ContactSection";
+import EducationSection from "./components/Sections/EducationSection";
+import ExperienceSection from "./components/Sections/ExperienceSection";
+import HeroSection from "./components/Sections/HeroSection";
+import SkillsSection from "./components/Sections/SkillsSection";
 
-function App() {
+// Layout components
+import Navigation from "./components/Layout/Navigation";
+import Footer from "./components/Layout/Footer";
+
+// Custom hook for scroll tracking
+import useScrollTracking from "./hooks/useScrollTracking";
+
+const App = () => {
+  const { activeSection, isScrolled } = useScrollTracking();
+
+  // Handle smooth scrolling to sections
+  const scrollToSection = (sectionId) => {
+    document.getElementById(sectionId)?.scrollIntoView({
+      behavior: "smooth",
+    });
+  };
+
   return (
-    <div className="bg-red-500 text-white p-8 text-2xl">
-      THIS SHOULD BE RED - If you see red background, Tailwind is working!
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white">
+      <Navigation
+        activeSection={activeSection}
+        isScrolled={isScrolled}
+        scrollToSection={scrollToSection}
+      />
+
+      <HeroSection scrollToSection={scrollToSection} />
+      <AboutSection />
+      <ExperienceSection />
+      <SkillsSection />
+      <EducationSection />
+      <ContactSection />
+
+      <Footer />
     </div>
   );
-}
+};
 
 export default App;
