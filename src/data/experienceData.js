@@ -5,7 +5,7 @@ export const experiences = [
     duration: "November 2022 - September 2024",
     location: "Pune, India",
     technologies: [
-      "React.js",
+      "React",
       "TypeScript",
       "Angular 9+",
       "MongoDB",

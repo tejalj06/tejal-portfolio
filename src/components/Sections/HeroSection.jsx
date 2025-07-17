@@ -40,6 +40,14 @@ const HeroSection = ({ scrollToSection }) => {
     }, 500);
   };
 
+  const handleEmailClick = () => {
+    const email = "jambhulkartejal06@gmail.com";
+    window.open(
+      `https://mail.google.com/mail/?view=cm&fs=1&to=${email}`,
+      "_blank"
+    );
+  };
+
   return (
     <section
       id="hero"
@@ -97,12 +105,12 @@ const HeroSection = ({ scrollToSection }) => {
           </div>
           <div className="flex items-center space-x-2 text-gray-300">
             <Mail size={20} />
-            <a
-              href="//mailto:jambhulkartejal06@gmail.com"
+            <button
+              onClick={handleEmailClick}
               className="text-gray-300 hover:text-purple-400 transition-colors duration-300 flex items-center gap-2 group"
             >
               <span>jambhulkartejal06@gmail.com</span>
-            </a>
+            </button>
           </div>
         </div>
 

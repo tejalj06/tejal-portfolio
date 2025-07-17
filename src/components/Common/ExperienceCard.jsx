@@ -42,7 +42,7 @@ const ExperienceCard = ({ experience }) => {
             experience.technologies.map((tech, techIndex) => (
               <span
                 key={techIndex}
-                className="tech-tag bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-300 px-3 py-1 rounded-full text-sm border border-purple-500/30 hover:border-purple-400 transition-all duration-300 cursor-pointer"
+                className="tech-tag bg-gradient-to-br from-purple-400/25 to-pink-400/25 text-purple-300 px-3 py-1 rounded-full text-sm border border-purple-400/40"
               >
                 {tech}
               </span>

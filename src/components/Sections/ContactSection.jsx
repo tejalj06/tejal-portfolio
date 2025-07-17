@@ -2,6 +2,13 @@ import { Mail, Phone, MapPin, Linkedin, Github } from "lucide-react";
 import SectionHeader from "../Common/SectionHeader";
 
 const ContactSection = () => {
+  const handleEmailClick = () => {
+    const email = "jambhulkartejal06@gmail.com";
+    window.open(
+      `https://mail.google.com/mail/?view=cm&fs=1&to=${email}`,
+      "_blank"
+    );
+  };
   return (
     <section id="contact" className="py-20 px-4">
       <div className="max-w-6xl mx-auto">
@@ -26,8 +33,8 @@ const ContactSection = () => {
               </div>
               <div>
                 <h4 className="font-semibold text-white">Email</h4>
-                <a
-                  href="//mailto:jambhulkartejal06@gmail.com"
+                <button
+                  onClick={handleEmailClick}
                   className="text-gray-300 hover:text-purple-400 transition-colors duration-300 flex items-center gap-2 group"
                 >
                   <Mail
@@ -35,7 +42,7 @@ const ContactSection = () => {
                     className="group-hover:scale-110 transition-transform duration-300"
                   />
                   jambhulkartejal06@gmail.com
-                </a>
+                </button>
               </div>
             </div>
 
@@ -76,6 +83,8 @@ const ContactSection = () => {
               <div className="flex space-x-4">
                 <a
                   href="https://www.linkedin.com/in/tejal-jambhulkar-854a17125"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="bg-gradient-to-r from-purple-500 to-pink-500 p-3 rounded-full hover:from-purple-600 hover:to-pink-600 transition-all duration-300 group"
                 >
                   <Linkedin
@@ -84,7 +93,9 @@ const ContactSection = () => {
                   />
                 </a>
                 <a
-                  href="https://github.com/tejalj06"
+                  href="https://github.com/tejalj06/tejal-portfolio"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="bg-gradient-to-r from-purple-500 to-pink-500 p-3 rounded-full hover:from-purple-600 hover:to-pink-600 transition-all duration-300 group"
                 >
                   <Github

@@ -1,54 +1,127 @@
+import { useState } from "react";
 import SectionHeader from "../Common/SectionHeader";
 import SkillCard from "../Common/SkillCard";
 import { skills } from "../../data/skillsData";
 
 const SkillsSection = () => {
-  // Handle skill click
+  const [toasterMessage, setToasterMessage] = useState("");
+  const [showToasterState, setShowToasterState] = useState(false);
+
+  // Handle skill click with semantic relationship mapping
   const handleSkillClick = (skillName) => {
     const allExperienceCards = document.querySelectorAll(".experience-card");
     const cardsWithMatchingSkill = [];
 
-    // Find matching cards
-    allExperienceCards.forEach((currentCard, cardPosition) => {
-      const technologyTags = currentCard.querySelectorAll(".tech-tag");
-      let currentCardHasSkill = false;
+    // React toaster function
+    const displayToaster = (message) => {
+      setToasterMessage(message);
+      setShowToasterState(true);
+      setTimeout(() => setShowToasterState(false), 3000);
+    };
 
-      technologyTags.forEach((singleTag) => {
-        const tagText = singleTag.textContent.toLowerCase();
-        const searchSkill = skillName.toLowerCase();
+    // Define semantic relationships for core technologies
+    const getRelatedTechnologies = (skill) => {
+      const skillLower = skill.toLowerCase();
 
-        const isMatch =
-          tagText.includes(searchSkill) || searchSkill.includes(tagText);
+      switch (skillLower) {
+        case "html":
+          return ["react", "angular", "html"];
+        case "css":
+          return ["react", "angular", "tailwindcss", "css"];
+        case "javascript":
+          return [
+            "react",
+            "angular",
+            "typescript",
+            "jest",
+            "redux",
+            "node.js",
+            "javascript",
+          ];
+        case "git":
+        case "github":
+          return "highlight-all-experiences";
+        case "vite":
+        case "tailwindcss":
+          return "highlight-portfolio";
+        default:
+          return [skillLower];
+      }
+    };
 
-        if (isMatch) {
-          currentCardHasSkill = true;
-        }
-      });
+    const relatedTechs = getRelatedTechnologies(skillName);
 
-      if (currentCardHasSkill) {
+    // Special handling for Git/GitHub and Vite/TailwindCSS
+    if (relatedTechs === "highlight-all-experiences") {
+      allExperienceCards.forEach((currentCard, cardPosition) => {
         cardsWithMatchingSkill.push({
           cardElement: currentCard,
           position: cardPosition,
         });
+      });
+
+      displayToaster(
+        `${skillName} is used across all development projects for version control and collaboration`
+      );
+    } else if (relatedTechs === "highlight-portfolio") {
+      const aboutSection = document.querySelector("#about");
+      if (aboutSection) {
+        aboutSection.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+
+        setTimeout(() => {
+          const portfolioParagraph = aboutSection.querySelector("p");
+          if (portfolioParagraph) {
+            portfolioParagraph.classList.add("highlight-experience");
+            setTimeout(() => {
+              portfolioParagraph.classList.remove("highlight-experience");
+            }, 3000);
+          }
+        }, 500);
       }
-    });
+
+      displayToaster(
+        `This interactive portfolio was built using ${skillName} to showcase modern frontend development capabilities`
+      );
+      return;
+    } else {
+      allExperienceCards.forEach((currentCard, cardPosition) => {
+        const technologyTags = currentCard.querySelectorAll(".tech-tag");
+        let currentCardHasSkill = false;
+
+        technologyTags.forEach((singleTag) => {
+          const tagText = singleTag.textContent.toLowerCase();
+
+          const isMatch = relatedTechs.some(
+            (relatedTech) =>
+              tagText.includes(relatedTech) || relatedTech.includes(tagText)
+          );
+
+          if (isMatch) {
+            currentCardHasSkill = true;
+          }
+        });
+
+        if (currentCardHasSkill) {
+          cardsWithMatchingSkill.push({
+            cardElement: currentCard,
+            position: cardPosition,
+          });
+        }
+      });
+    }
 
     // Scroll and highlight
     if (cardsWithMatchingSkill.length > 0) {
-      let cardToScrollTo;
-
-      if (cardsWithMatchingSkill.length === 1) {
-        cardToScrollTo = cardsWithMatchingSkill[0].cardElement;
-      } else {
-        cardToScrollTo = cardsWithMatchingSkill[0].cardElement;
-      }
+      let cardToScrollTo = cardsWithMatchingSkill[0].cardElement;
 
       cardToScrollTo.scrollIntoView({
         behavior: "smooth",
         block: "center",
       });
 
-      // Add highlighting effects
       setTimeout(() => {
         cardsWithMatchingSkill.forEach((matchingCard) => {
           const cardElement = matchingCard.cardElement;
@@ -56,23 +129,27 @@ const SkillsSection = () => {
 
           tagsInCard.forEach((tag) => {
             const tagContent = tag.textContent.toLowerCase();
-            const skillToFind = skillName.toLowerCase();
 
-            if (
-              tagContent.includes(skillToFind) ||
-              skillToFind.includes(tagContent)
-            ) {
-              tag.classList.add("highlight-skill");
-              setTimeout(() => {
-                tag.classList.remove("highlight-skill");
-              }, 3000);
+            if (relatedTechs !== "highlight-all-experiences") {
+              const shouldHighlight = relatedTechs.some(
+                (relatedTech) =>
+                  tagContent.includes(relatedTech) ||
+                  relatedTech.includes(tagContent)
+              );
+
+              if (shouldHighlight) {
+                tag.classList.add("highlight-skill");
+                setTimeout(() => {
+                  tag.classList.remove("highlight-skill");
+                }, 5000);
+              }
             }
           });
 
           cardElement.classList.add("highlight-experience");
           setTimeout(() => {
             cardElement.classList.remove("highlight-experience");
-          }, 3000);
+          }, 5000);
         });
       }, 500);
     } else {
@@ -92,6 +169,11 @@ const SkillsSection = () => {
 
   return (
     <section id="skills" className="py-20 px-4">
+      {showToasterState && (
+        <div className="fixed top-5 right-5 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-5 py-4 rounded-lg shadow-xl z-50 max-w-sm transition-all duration-300 ease-in-out transform animate-pulse">
+          {toasterMessage}
+        </div>
+      )}
       <div className="max-w-6xl mx-auto">
         <SectionHeader title="Skills & Technologies" />
 

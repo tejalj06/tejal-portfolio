@@ -13,7 +13,7 @@
 
 /* Experience card highlighting */
 .highlight-experience {
-  @apply border-yellow-400 border-opacity-50 bg-yellow-900 bg-opacity-10;
+  @apply border-yellow-400 border-opacity-50 bg-yellow-900 bg-opacity-10 p-6 rounded-xl;
   animation: glow 2s ease-in-out infinite;
 }
 
