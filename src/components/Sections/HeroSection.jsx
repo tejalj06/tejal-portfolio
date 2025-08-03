@@ -5,15 +5,13 @@ import { skills } from "../../data/skillsData";
 import tejalImage from "../../assets/Tejal.jpg";
 
 const HeroSection = ({ scrollToSection }) => {
-  // Custom hooks
   const typedText = useTypeWriter("Dynamic Frontend Developer");
   const currentSkillIndex = useSkillRotation(skills);
 
-  // Handle skill click
+  // Highlight matching experience when skill clicked
   const handleSkillClick = (skill) => {
     scrollToSection("experience");
 
-    // Highlight matching experiences
     setTimeout(() => {
       const experienceCards = document.querySelectorAll(".experience-card");
 
@@ -51,17 +49,14 @@ const HeroSection = ({ scrollToSection }) => {
   return (
     <section
       id="hero"
-      className="min-h-screen flex items-center justify-center relative overflow-hidden"
+      className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20"
     >
-      {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-pink-600/20"></div>
 
-      {/* Main content */}
       <div className="text-center z-10 max-w-4xl mx-auto px-4">
-        {/* Profile section */}
         <div className="mb-8">
           {/* Profile picture */}
-          <div className="w-40 h-40 mx-auto mb-6 relative">
+          <div className="w-48 h-48 mx-auto mb-6 relative">
             <div className="w-full h-full rounded-full bg-gradient-to-r from-purple-400 to-pink-400 p-0.5 flex items-center justify-center">
               <img
                 src={tejalImage}
@@ -71,7 +66,6 @@ const HeroSection = ({ scrollToSection }) => {
             </div>
           </div>
 
-          {/* Name */}
           <h1 className="text-2xl md:text-5xl font-bold mb-4">
             TEJAL
             <span className="block bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
@@ -85,7 +79,6 @@ const HeroSection = ({ scrollToSection }) => {
             <span className="animate-pulse">|</span>
           </div>
 
-          {/* Specialization */}
           <div className="text-lg text-purple-300 mb-8">
             Specializing in{" "}
             <span
@@ -114,7 +107,6 @@ const HeroSection = ({ scrollToSection }) => {
           </div>
         </div>
 
-        {/* Scroll button */}
         <button
           onClick={() => scrollToSection("about")}
           className="animate-bounce bg-gradient-to-r from-purple-500 to-pink-500 p-3 rounded-full hover:from-purple-600 hover:to-pink-600 transition-all duration-300"
