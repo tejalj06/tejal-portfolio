@@ -6,6 +6,8 @@ import {
   Send,
   User,
   MessageSquare,
+  CheckCircle,
+  XCircle,
 } from "lucide-react";
 import { useState } from "react";
 import SectionHeader from "../Common/SectionHeader";
@@ -20,6 +22,8 @@ const ContactSection = () => {
 
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null);
+  const [showToast, setShowToast] = useState(false);
 
   const handleEmailClick = () => {
     const email = "jambhulkartejal06@gmail.com";
@@ -60,7 +64,23 @@ const ContactSection = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleFormSubmit = (e) => {
+  const showToastMessage = (status) => {
+    setSubmitStatus(status);
+    setShowToast(true);
+
+    // Hide notification after 5 seconds
+    setTimeout(() => {
+      setShowToast(false);
+      setSubmitStatus(null);
+    }, 5000);
+  };
+
+  const closeToast = () => {
+    setShowToast(false);
+    setSubmitStatus(null);
+  };
+
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
 
     if (!validateForm()) {
@@ -69,12 +89,34 @@ const ContactSection = () => {
 
     setIsSubmitting(true);
 
-    const { name, email, message } = formData;
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
-    // Reset form
-    setFormData({ name: "", email: "", message: "" });
-    setErrors({});
-    setIsSubmitting(false);
+      const result = await response.json();
+
+      if (response.ok) {
+        // Clear form and show success
+        setFormData({ name: "", email: "", message: "" });
+        setErrors({});
+        showToastMessage("success");
+      } else {
+        // Show error message
+        showToastMessage("error");
+        console.error("Server error:", result.message);
+      }
+    } catch (error) {
+      // Handle network errors
+      showToastMessage("error");
+      console.error("Submit error:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
   return (
     <section id="contact" className="py-20 px-4">
@@ -88,6 +130,37 @@ const ContactSection = () => {
           </p>
         </div>
 
+        {showToast && (
+          <div
+            className={`fixed top-6 right-6 z-50 flex items-center gap-3 px-6 py-4 rounded-lg shadow-lg transform transition-all duration-300 ${
+              submitStatus === "success"
+                ? "bg-green-600 border border-green-500"
+                : "bg-red-600 border border-red-500"
+            }`}
+          >
+            {submitStatus === "success" ? (
+              <CheckCircle size={20} className="text-white" />
+            ) : (
+              <XCircle size={20} className="text-white" />
+            )}
+            <div className="text-white">
+              <p className="font-semibold">
+                {submitStatus === "success" ? "Message Sent!" : "Send Failed"}
+              </p>
+              <p className="text-sm">
+                {submitStatus === "success"
+                  ? "Thank you for reaching out. I'll get back to you shortly!"
+                  : "Something went wrong. Please try again or email me directly."}
+              </p>
+            </div>
+            <button
+              onClick={closeToast}
+              className="text-white hover:text-gray-200 ml-2"
+            >
+              <XCircle size={18} />
+            </button>
+          </div>
+        )}
         <div className="grid md:grid-cols-2 gap-12 max-w-4xl mx-auto">
           {/* Contact info */}
           <div className="space-y-6">
@@ -176,7 +249,7 @@ const ContactSection = () => {
                 Send me a message
               </h4>
 
-              <div className="space-y-4">
+              <form onSubmit={handleFormSubmit} className="space-y-4">
                 <div>
                   <label
                     htmlFor="name"
@@ -267,7 +340,7 @@ const ContactSection = () => {
                 </div>
 
                 <button
-                  onClick={handleFormSubmit}
+                  type="submit"
                   disabled={isSubmitting}
                   className={`w-full font-semibold py-4 px-6 rounded-lg transition-all duration-300 flex items-center justify-center gap-2 group text-white ${
                     isSubmitting
@@ -281,7 +354,7 @@ const ContactSection = () => {
                   />
                   {isSubmitting ? "Sending..." : "Send Message"}{" "}
                 </button>
-              </div>
+              </form>
             </div>
           </div>
         </div>
