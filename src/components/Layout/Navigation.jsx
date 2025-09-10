@@ -1,7 +1,16 @@
 import { useState } from "react";
+import { User, Briefcase, Code, GraduationCap, Mail } from "lucide-react";
 
 const Navigation = ({ activeSection, isScrolled, scrollToSection }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const menuItems = [
+    { name: "About", icon: User },
+    { name: "Experience", icon: Briefcase },
+    { name: "Skills", icon: Code },
+    { name: "Education", icon: GraduationCap },
+    { name: "Contact", icon: Mail },
+  ];
 
   return (
     <>
@@ -20,21 +29,19 @@ const Navigation = ({ activeSection, isScrolled, scrollToSection }) => {
 
             {/* Desktop menu */}
             <div className="absolute right-4 hidden md:flex space-x-8">
-              {["About", "Experience", "Skills", "Education", "Contact"].map(
-                (item) => (
-                  <button
-                    key={item}
-                    onClick={() => scrollToSection(item.toLowerCase())}
-                    className={`hover:text-purple-400 transition-colors duration-300 ${
-                      activeSection === item.toLowerCase()
-                        ? "text-purple-400"
-                        : "text-gray-300"
-                    }`}
-                  >
-                    {item}
-                  </button>
-                )
-              )}
+              {menuItems.map((item) => (
+                <button
+                  key={item.name}
+                  onClick={() => scrollToSection(item.name.toLowerCase())}
+                  className={`hover:text-purple-400 transition-colors duration-300 ${
+                    activeSection === item.name.toLowerCase()
+                      ? "text-purple-400"
+                      : "text-gray-300"
+                  }`}
+                >
+                  {item.name}
+                </button>
+              ))}
             </div>
 
             {/* Mobile menu button */}
@@ -71,24 +78,26 @@ const Navigation = ({ activeSection, isScrolled, scrollToSection }) => {
           ></div>
           <div className="absolute top-0 right-0 h-full w-64 bg-gray-900/95 backdrop-blur-sm">
             <div className="flex flex-col pt-20 px-6">
-              {["About", "Experience", "Skills", "Education", "Contact"].map(
-                (item) => (
+              {menuItems.map((item) => {
+                const IconComponent = item.icon;
+                return (
                   <button
-                    key={item}
+                    key={item.name}
                     onClick={() => {
-                      scrollToSection(item.toLowerCase());
+                      scrollToSection(item.name.toLowerCase());
                       setIsMobileMenuOpen(false);
                     }}
-                    className={`text-left py-4 text-lg border-b border-gray-700/50 hover:text-purple-400 transition-colors duration-300 ${
-                      activeSection === item.toLowerCase()
+                    className={`flex items-center space-x-3 text-left py-4 text-lg border-b border-gray-700/50 hover:text-purple-400 transition-colors duration-300 ${
+                      activeSection === item.name.toLowerCase()
                         ? "text-purple-400"
                         : "text-gray-300"
                     }`}
                   >
-                    {item}
+                    <IconComponent size={20} />
+                    <span>{item.name}</span>
                   </button>
-                )
-              )}
+                );
+              })}
             </div>
           </div>
         </div>
