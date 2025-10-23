@@ -12,7 +12,7 @@ const AboutSection = () => {
           {/* Left column */}
           <div className="space-y-6">
             <p className="text-lg text-gray-300 leading-relaxed">
-              Dynamic Frontend Developer with around 4 years of experience in
+              Dynamic Frontend Developer with around 5 years of experience in
               building and enhancing applications. Proficient in React, Angular,
               and state management using Redux. Skilled in modern development
               tools and recently created this portfolio using React, Vite, and
@@ -31,7 +31,7 @@ const AboutSection = () => {
             {/* Stats cards */}
             <div className="grid grid-cols-2 gap-6 mt-8">
               <div className="text-center p-4 bg-slate-800/50 rounded-lg">
-                <div className="text-3xl font-bold text-purple-400 mb-2">4</div>
+                <div className="text-3xl font-bold text-purple-400 mb-2">5</div>
                 <div className="text-gray-300">Years Experience</div>
               </div>
               <div className="text-center p-4 bg-slate-800/50 rounded-lg">
