@@ -160,8 +160,8 @@ const SkillsSection = () => {
   // Handle resume download
   const handleResumeDownload = () => {
     const downloadLink = document.createElement("a");
-    downloadLink.href = "/assets/CV_Tejal_Jambhulkar_Frontend_Developer.pdf";
-    downloadLink.download = "CV_Tejal_Jambhulkar_Frontend_Developer.pdf";
+    downloadLink.href = "/assets/CV_Tejal_Jambhulkar_Software_Engineer.pdf";
+    downloadLink.download = "CV_Tejal_Jambhulkar_Software_Engineer.pdf";
     document.body.appendChild(downloadLink);
     downloadLink.click();
     document.body.removeChild(downloadLink);
